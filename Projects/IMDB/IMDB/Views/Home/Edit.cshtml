@@ -1,0 +1,151 @@
+﻿@model IMDB.Models.IMViewModel
+@using Newtonsoft.Json  
+@if (Model == null)
+{
+    ViewData["Title"] = "Add";
+}
+else { 
+    ViewData["Title"] = "Edit";
+}
+<h2>@ViewData["Title"]</h2>
+<h3>@ViewData["Message"]</h3>
+@{
+    var actorList = new List<SelectListItem>();
+    @if (Model != null)
+    {
+        @foreach (var actor in Model.Actors)
+        {
+            actorList.Add(new SelectListItem { Text = actor.Name, Value = actor.ActorId.ToString() });
+        }
+    }
+}
+<div ng-app="myApp" ng-controller="editController" class="row">
+    <div class="col-md-4">
+        <form>
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="MovieName" class="control-label"></label>
+                @if (Model == null)
+    {
+            <input type="text" id="movieName" ng-model="formData.MovieName"/>
+}
+else
+{
+            <input type="text" asp-for="MovieName" ng-model="formData.MovieName"/>
+           
+             <input type="hidden" asp-for="MovieId" value=Model.MovieId ng-model="formData.MovieId"/>
+            <input type="hidden" asp-for="ProducerId" value=Model.ProducerId ng-model="formData.ProducerId"/>
+}
+
+                @*<span asp-validation-for="MovieName" class="text-danger"></span>*@
+            </div>
+            <div class="form-group">
+                <label asp-for="Actors" class="control-label"></label>
+                @if (Model == null)
+    {
+            <div class="form-group">
+                <select id="lstActors" ng-model="formData.Actors" style="width:100px" multiple />
+            </div>
+<div class="form-group">
+            <input type="text" id="actor" ng-model="formData.Actor" />
+            <input type="button" value="Add" ng-click="addToList()" />
+    </div>
+            }
+            else
+            {
+             <select id="edtLstActors" asp-items="@Model.ActorsList" multiple>
+             </select>
+            <input type="text" id="edtActor" ng-model="formData.Actor" />
+            <input type="button" value="Add" ng-click="addToEditList()" />
+            }
+                
+            </div>
+            <div class="form-group">
+                <label asp-for="Producer.Name" class="control-label"></label>
+                @if (Model == null)
+                {
+                <input type="text" id="producerName" ng-model="formData.Producer.Name"/>
+                }
+                else
+                {
+                    <input type="text" asp-for="Producer.Name" ng-model="formData.Producer.Name"/>
+                }
+                <span asp-validation-for="Producer.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+
+                @if (Model == null)
+                {
+                    <input type="button" value="Add" ng-click="add()" class="btn btn-default" />
+                    }
+                    else
+                    {
+            <input type="button" value="Update" ng-click="edit()" class="btn btn-default" />
+                }
+            </div>
+        </form>
+    </div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+
+<script language="javascript">
+
+var app = angular.module("myApp", []);
+app.controller("editController", function($scope, $http) {
+        $scope.formData = @Html.Raw(JsonConvert.SerializeObject(Model));
+        $scope.cActorId=0;
+        $scope.edit = function() {
+            var dataObj = {};
+            dataObj = $scope.formData;
+
+            $('select#edtLstActors').find('option').each(function() {
+                $scope.cActorId=$(this).val();
+                if(!dataObj.Actors.find($scope.checkActors))
+                    dataObj.Actors.push({ "ActorId": $(this).val(), "Name":$(this).text()} );
+            });
+            var config = {
+                method: "POST",
+                url: '/Home/PostData',
+                headers:
+                    {
+                        'Content-Type': 'application/json;charset=utf-8'
+                    },
+                data: dataObj
+            };
+            $http(config);
+        }
+        $scope.add = function() {
+            var dataObj = {};
+            dataObj = $scope.formData;
+            dataObj.Actors=[];
+            $('select#lstActors').find('option').each(function() {
+                  dataObj.Actors.push({ "ActorId": $(this).val(), "Name":$(this).text()} );
+            });
+            var config = {
+                method: "POST",
+                url: '/Home/AddData',
+                headers:
+                    {
+                        'Content-Type': 'application/json;charset=utf-8'
+                    },
+                data: dataObj
+            };
+            $http(config);
+        }
+        $scope.addToList = function() {
+
+            $("#lstActors").append('<option value="0">'+$scope.formData.Actor+'</option>')
+        }
+        $scope.addToEditList = function() {
+
+            $("#edtLstActors").append('<option value="0">'+$scope.formData.Actor+'</option>')
+        }
+        $scope.checkActors = function(actor) {
+            return actor.ActorId == $scope.cActorId;
+        }
+});
+</script>

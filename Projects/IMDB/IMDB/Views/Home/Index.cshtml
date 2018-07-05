@@ -1,0 +1,45 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+@model IEnumerable<IMDB.Models.IMViewModel>
+
+        
+
+<table class="table table-bordered table-striped table-condensed">
+    <thead>
+        <tr>
+            <th>Movie Name</th>
+            <th>Actors</th>
+            <th>Producer Name</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        
+        @foreach (var item in Model)
+        {
+            var actorList = new List<SelectListItem>();
+            @foreach (var actor in item.Actors)
+            {
+                actorList.Add(new SelectListItem { Text = actor.Name, Value = actor.ActorId.ToString() });
+
+            }
+            item.ActorsList = actorList;
+            <tr>
+                <td>@Html.DisplayFor(e=> item.MovieName)</td>
+                <td>@Html.ListBoxFor(e=> item.ActorsList,item.ActorsList, new { @id="lstmovie", @style=""})</td>
+                <td>@Html.DisplayFor(e=> item.Producer.Name)</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.MovieId">Edit</a>
+                    @*<a id="editModal" data-toggle="modal" asp-action="Edit" asp-route-id="@item.MovieId" data-target="#modal-action"
+                       class="btn btn-info">
+                        <i class="glyphicon glyphicon-pencil"></i>  Edit
+                    </a>*@
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+ 

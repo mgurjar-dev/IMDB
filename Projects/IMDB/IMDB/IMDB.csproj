@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.1.1" />
+    <PackageReference Include="EntityFramework" Version="6.2.0" />
+    <PackageReference Include="Microsoft.AspNet.Mvc" Version="5.2.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.1.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="2.1.1" />
+    <PackageReference Include="AngularJS.Core" Version="1.7.2" />
+    <PackageReference Include="angularjs" Version="1.7.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Controllers\HomeController2.cs" />
+    <Compile Remove="Models\Middleware.cs" />
+    <Compile Remove="Views\Home\Actor.cshtml.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="DL\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Remove="Views\Home\Actor.cshtml" />
+  </ItemGroup>
+</Project>

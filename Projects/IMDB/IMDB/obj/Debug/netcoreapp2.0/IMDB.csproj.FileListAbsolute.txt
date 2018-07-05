@@ -1,0 +1,11 @@
+/Users/manish/Projects/IMDB/IMDB/bin/Debug/netcoreapp2.0/IMDB.deps.json
+/Users/manish/Projects/IMDB/IMDB/bin/Debug/netcoreapp2.0/IMDB.runtimeconfig.json
+/Users/manish/Projects/IMDB/IMDB/bin/Debug/netcoreapp2.0/IMDB.runtimeconfig.dev.json
+/Users/manish/Projects/IMDB/IMDB/bin/Debug/netcoreapp2.0/IMDB.dll
+/Users/manish/Projects/IMDB/IMDB/bin/Debug/netcoreapp2.0/IMDB.pdb
+/Users/manish/Projects/IMDB/IMDB/obj/Debug/netcoreapp2.0/IMDB.csprojResolveAssemblyReference.cache
+/Users/manish/Projects/IMDB/IMDB/obj/Debug/netcoreapp2.0/IMDB.csproj.CoreCompileInputs.cache
+/Users/manish/Projects/IMDB/IMDB/obj/Debug/netcoreapp2.0/IMDB.AssemblyInfoInputs.cache
+/Users/manish/Projects/IMDB/IMDB/obj/Debug/netcoreapp2.0/IMDB.AssemblyInfo.cs
+/Users/manish/Projects/IMDB/IMDB/obj/Debug/netcoreapp2.0/IMDB.dll
+/Users/manish/Projects/IMDB/IMDB/obj/Debug/netcoreapp2.0/IMDB.pdb
