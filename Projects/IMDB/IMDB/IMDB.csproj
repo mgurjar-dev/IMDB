@@ -23,6 +23,7 @@
     <Compile Remove="Controllers\HomeController2.cs" />
     <Compile Remove="Models\Middleware.cs" />
     <Compile Remove="Views\Home\Actor.cshtml.cs" />
+    <Compile Remove="Models\CustomAttributes.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DL\" />

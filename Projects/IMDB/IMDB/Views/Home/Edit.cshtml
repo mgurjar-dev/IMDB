@@ -25,20 +25,20 @@ else {
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
             <div class="form-group">
-                <label asp-for="MovieName" class="control-label"></label>
+                <label asp-for="MovieName" class="control-label">Movie Name</label>
                 @if (Model == null)
     {
             <input type="text" id="movieName" ng-model="formData.MovieName"/>
 }
 else
 {
-            <input type="text" asp-for="MovieName" ng-model="formData.MovieName"/>
+            <input type="text" asp-for="MovieName" ng-model="formData.MovieName" required placeholder="Enter the name..."/>
            
              <input type="hidden" asp-for="MovieId" value=Model.MovieId ng-model="formData.MovieId"/>
             <input type="hidden" asp-for="ProducerId" value=Model.ProducerId ng-model="formData.ProducerId"/>
 }
 
-                @*<span asp-validation-for="MovieName" class="text-danger"></span>*@
+                <span asp-validation-for="MovieName" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Actors" class="control-label"></label>
@@ -62,7 +62,7 @@ else
                 
             </div>
             <div class="form-group">
-                <label asp-for="Producer.Name" class="control-label"></label>
+                <label asp-for="Producer.Name" class="control-label">Producer Name</label>
                 @if (Model == null)
                 {
                 <input type="text" id="producerName" ng-model="formData.Producer.Name"/>
@@ -84,7 +84,12 @@ else
             <input type="button" value="Update" ng-click="edit()" class="btn btn-default" />
                 }
             </div>
+           
+            <div class="form-group">
+                <div id="result"/>
+            </div>
         </form>
+
     </div>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
@@ -99,14 +104,17 @@ app.controller("editController", function($scope, $http) {
         $scope.formData = @Html.Raw(JsonConvert.SerializeObject(Model));
         $scope.cActorId=0;
         $scope.edit = function() {
+            $("#result").text("");
             var dataObj = {};
             dataObj = $scope.formData;
-
+     if($('select#edtLstActors option').length>0)
+            {
             $('select#edtLstActors').find('option').each(function() {
                 $scope.cActorId=$(this).val();
                 if(!dataObj.Actors.find($scope.checkActors))
                     dataObj.Actors.push({ "ActorId": $(this).val(), "Name":$(this).text()} );
             });
+    }
             var config = {
                 method: "POST",
                 url: '/Home/PostData',
@@ -116,15 +124,24 @@ app.controller("editController", function($scope, $http) {
                     },
                 data: dataObj
             };
-            $http(config);
+            $http(config).then(function successCallback(response) {
+                    $("#result").text(response.data.msg);
+              }, function errorCallback(response) {
+                $("#result").text(response.data.msg);
+              });;
         }
         $scope.add = function() {
+            $("#result").text("");
             var dataObj = {};
             dataObj = $scope.formData;
-            dataObj.Actors=[];
-            $('select#lstActors').find('option').each(function() {
-                  dataObj.Actors.push({ "ActorId": $(this).val(), "Name":$(this).text()} );
-            });
+
+            if($('select#lstActors option').length>0)
+            {
+                dataObj.Actors=[];
+                $('select#lstActors').find('option').each(function() {
+                      dataObj.Actors.push({ "ActorId": $(this).val(), "Name":$(this).text()} );
+                });
+            }
             var config = {
                 method: "POST",
                 url: '/Home/AddData',
@@ -134,7 +151,11 @@ app.controller("editController", function($scope, $http) {
                     },
                 data: dataObj
             };
-            $http(config);
+            $http(config).then(function successCallback(response) {
+                    $("#result").text(response.data.msg);
+              }, function errorCallback(response) {
+                $("#result").text(response.data.msg);
+              });
         }
         $scope.addToList = function() {
 

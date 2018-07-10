@@ -10,6 +10,7 @@ namespace IMDB.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ProducerId { get; set; }
+        [Required]
         public string Name { get; set; }
         public List<Movie> Movies { get; set; }
     }
